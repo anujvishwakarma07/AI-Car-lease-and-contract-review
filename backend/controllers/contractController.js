@@ -17,6 +17,7 @@ export const uploadContent = async (req, res)=> {
         const analysis = await analyseContractText(text);
 
         const newContract = new Contract({
+            userId : req.user.id,
             fileName : req.file.originalname,
             fileSize : req.file.size,
             rawText : text,
@@ -34,6 +35,18 @@ export const uploadContent = async (req, res)=> {
         console.error('Error in contractController', error);
         res.status(500).json({
             error : error.message || 'Failed to parse PDF contract'
+        });
+    }
+}
+
+export const getContracts = async (req, res) => {
+    try {
+        const contracts = await Contract.find({userId : req.user.id}).sort({createdAt : -1});
+        return res.status(200).json(contracts);
+    } catch (error) {
+        console.error('Error in getContracts controller : ', error);
+        return res.status(500).json({
+            error : 'Failed to fetch your saved contracts'
         });
     }
 }

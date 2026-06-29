@@ -1,12 +1,13 @@
-import { 
-  LayoutDashboard, 
-  FileSearch, 
-  Car, 
-  MessageSquare, 
+import {
+  LayoutDashboard,
+  FileSearch,
+  Car,
+  MessageSquare,
   Sparkles,
   LogOut,
   Sun,
-  Moon
+  Moon,
+  GitCompare,
 } from 'lucide-react';
 
 const Sidebar = ({ activeTab, setActiveTab, setIsAuthenticated, setUser, theme, toggleTheme }) => {
@@ -26,15 +27,15 @@ const Sidebar = ({ activeTab, setActiveTab, setIsAuthenticated, setUser, theme, 
 
       {/* Menu Options */}
       <div className="sidebar-menu">
-        <div 
+        <div
           className={`sidebar-item ${activeTab === 'dashboard' ? 'active' : ''}`}
           onClick={() => setActiveTab('dashboard')}
         >
           <LayoutDashboard size={20} />
           <span>Dashboard</span>
         </div>
-        
-        <div 
+
+        <div
           className={`sidebar-item ${activeTab === 'analyzer' ? 'active' : ''}`}
           onClick={() => setActiveTab('analyzer')}
         >
@@ -42,7 +43,7 @@ const Sidebar = ({ activeTab, setActiveTab, setIsAuthenticated, setUser, theme, 
           <span>Contract Analyzer</span>
         </div>
 
-        <div 
+        <div
           className={`sidebar-item ${activeTab === 'vin' ? 'active' : ''}`}
           onClick={() => setActiveTab('vin')}
         >
@@ -50,7 +51,7 @@ const Sidebar = ({ activeTab, setActiveTab, setIsAuthenticated, setUser, theme, 
           <span>VIN Lookup</span>
         </div>
 
-        <div 
+        <div
           className={`sidebar-item ${activeTab === 'coach' ? 'active' : ''}`}
           onClick={() => setActiveTab('coach')}
         >
@@ -58,9 +59,17 @@ const Sidebar = ({ activeTab, setActiveTab, setIsAuthenticated, setUser, theme, 
           <span>Negotiation Coach</span>
         </div>
 
+        <div
+          className={`sidebar-item ${activeTab === 'compare' ? 'active' : ''}`}
+          onClick={() => setActiveTab('compare')}
+        >
+          <GitCompare size={20} />
+          <span>Compare Deals</span>
+        </div>
+
         {/* Theme Toggle Button */}
-        <div 
-          className="sidebar-item desktop-only" 
+        <div
+          className="sidebar-item desktop-only"
           onClick={toggleTheme}
           style={{ marginTop: 'auto', borderTop: '1px solid var(--border)' }}
         >
@@ -69,8 +78,8 @@ const Sidebar = ({ activeTab, setActiveTab, setIsAuthenticated, setUser, theme, 
         </div>
 
         {/* Dynamic Log Out Button */}
-        <div 
-          className="sidebar-item" 
+        <div
+          className="sidebar-item"
           onClick={handleSignOut}
           style={{ color: 'var(--text-dim)' }}
         >

@@ -7,10 +7,11 @@ import VinLookup from './components/VinLookup.jsx';
 import NegotiationCoach from './components/NegotiationCoach.jsx';
 import Footer from './components/Footer.jsx';
 import AuthView from './components/AuthView.jsx';
+import OfferComparision from './components/OfferComparision.jsx';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
-  
+
   // Theme state persisted in localStorage
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
 
@@ -40,21 +41,21 @@ function App() {
       }
     }
   }, []);
-  
+
   // Lifted Chat memory states (Preserves conversation across tab switching!)
   const [chatMessages, setChatMessages] = useState([
-    { 
-      role: 'bot', 
-      text: 'Hello! I am your AI Car Negotiation Coach.\n\nI can help you review dealer pricing sheets, draft professional emails to salespeople, or advice you on specific terms like acquisition fees, doc fees, and money factors.\n\nIf you have uploaded a contract in the Contract Analyzer tab, I will automatically use its numbers to give you custom negotiation counter-offers!' 
+    {
+      role: 'bot',
+      text: 'Hello! I am your AI Car Negotiation Coach.\n\nI can help you review dealer pricing sheets, draft professional emails to salespeople, or advice you on specific terms like acquisition fees, doc fees, and money factors.\n\nIf you have uploaded a contract in the Contract Analyzer tab, I will automatically use its numbers to give you custom negotiation counter-offers!'
     }
   ]);
   const [chatHistory, setChatHistory] = useState([]);
 
   if (!isAuthenticated) {
     return (
-      <AuthView 
-        setIsAuthenticated={setIsAuthenticated} 
-        setUser={setUser} 
+      <AuthView
+        setIsAuthenticated={setIsAuthenticated}
+        setUser={setUser}
       />
     );
   }
@@ -64,13 +65,13 @@ function App() {
       <div className="mobile-header">
         <Sparkles size={18} style={{ color: 'var(--primary)' }} />
         <span>VetoCar</span>
-        <button 
-          onClick={toggleTheme} 
-          style={{ 
-            marginLeft: 'auto', 
-            background: 'none', 
-            border: 'none', 
-            color: 'var(--text-main)', 
+        <button
+          onClick={toggleTheme}
+          style={{
+            marginLeft: 'auto',
+            background: 'none',
+            border: 'none',
+            color: 'var(--text-main)',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
@@ -83,10 +84,10 @@ function App() {
         </button>
       </div>
 
-      <Sidebar 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
-        setIsAuthenticated={setIsAuthenticated} 
+      <Sidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        setIsAuthenticated={setIsAuthenticated}
         setUser={setUser}
         theme={theme}
         toggleTheme={toggleTheme}
@@ -96,27 +97,31 @@ function App() {
         {activeTab === 'dashboard' && (
           <DashboardView setActiveTab={setActiveTab} />
         )}
-        
+
         {activeTab === 'analyzer' && (
-          <ContractAnalyser 
-            contractResult={contractResult} 
-            setContractResult={setContractResult} 
+          <ContractAnalyser
+            contractResult={contractResult}
+            setContractResult={setContractResult}
             setChatMessages={setChatMessages}
           />
         )}
-        
+
         {activeTab === 'vin' && (
           <VinLookup />
         )}
-        
+
         {activeTab === 'coach' && (
-          <NegotiationCoach 
-            contractResult={contractResult} 
+          <NegotiationCoach
+            contractResult={contractResult}
             chatMessages={chatMessages}
             setChatMessages={setChatMessages}
             chatHistory={chatHistory}
             setChatHistory={setChatHistory}
           />
+        )}
+
+        {activeTab === 'compare' && (
+          <OfferComparision />
         )}
         <Footer />
       </div>
