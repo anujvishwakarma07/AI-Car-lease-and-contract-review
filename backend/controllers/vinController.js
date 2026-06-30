@@ -1,5 +1,4 @@
 import { decodeVinNumber } from "../services/vinServices.js";
-import User from "../models/User.js";
 
 export const checkVin = async (req, res) => {
     try {
@@ -33,14 +32,6 @@ export const checkPlate = async (req, res) => {
             });
         }
 
-        // Check user credits
-        const user = await User.findById(req.user.id);
-        if (!user || user.credits < 1) {
-            return res.status(402).json({
-                error: 'Insufficient credits. Please top up your account balance.'
-            });
-        }
-
         const url = `https://us-license-plate-to-vin.p.rapidapi.com/licenseplateapi.php?plate=${encodeURIComponent(plate.trim().toUpperCase())}&state=${encodeURIComponent(state.trim().toUpperCase())}`;
 
         const response = await fetch(url, {
@@ -68,15 +59,10 @@ export const checkPlate = async (req, res) => {
         // Now decode the VIN through NHTSA for full specs (free, no quota cost)
         const carInfo = await decodeVinNumber(vin);
 
-        // Deduct one credit
-        user.credits -= 1;
-        await user.save();
-
         res.status(200).json({
             message: 'License plate decoded successfully!',
             vin,
-            carInfo,
-            credits: user.credits
+            carInfo
         });
 
     } catch (error) {
@@ -94,14 +80,6 @@ export const checkIndianPlate = async (req, res) => {
         if (!plate) {
             return res.status(400).json({
                 error: 'Please provide an Indian vehicle number (e.g. UP77AM5674)'
-            });
-        }
-
-        // Check user credits
-        const user = await User.findById(req.user.id);
-        if (!user || user.credits < 1) {
-            return res.status(402).json({
-                error: 'Insufficient credits. Please top up your account balance.'
             });
         }
 
@@ -125,10 +103,6 @@ export const checkIndianPlate = async (req, res) => {
 
         const r = data.data;
 
-        // Deduct one credit
-        user.credits -= 1;
-        await user.save();
-
         res.status(200).json({
             message: 'Indian vehicle registration decoded successfully!',
             vehicleInfo: {
@@ -149,8 +123,7 @@ export const checkIndianPlate = async (req, res) => {
                 rcStatus: r.rcStatus || 'N/A',
                 seatCapacity: r.seatCapacity || 'N/A',
                 fuelNorms: r.fuelNorms || 'N/A',
-            },
-            credits: user.credits
+            }
         });
 
     } catch (error) {

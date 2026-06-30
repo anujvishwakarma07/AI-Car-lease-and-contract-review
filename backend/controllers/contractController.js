@@ -1,5 +1,4 @@
 import Contract from "../models/Contract.js";
-import User from "../models/User.js";
 import analyseContractText from "../services/geminiServices.js";
 import extractedTextFormPDF from "../services/pdfServices.js";
 
@@ -8,14 +7,6 @@ export const uploadContent = async (req, res)=> {
         if(!req.file) {
             return res.status(400).json({
                 error : 'Please upload a pdf file'
-            });
-        }
-
-        // Check user credits
-        const user = await User.findById(req.user.id);
-        if (!user || user.credits < 1) {
-            return res.status(402).json({
-                error: 'Insufficient credits. Please top up your account balance.'
             });
         }
 
@@ -35,15 +26,10 @@ export const uploadContent = async (req, res)=> {
 
         await newContract.save();
 
-        // Decrement user credits
-        user.credits -= 1;
-        await user.save();
-
         res.status(200).json ( {
             message : 'PDF contract upload and parsed successfully!,',
             contractId : newContract._id,
             analysis : analysis,
-            credits: user.credits
         });
     } catch (error) {
         console.error('Error in contractController', error);

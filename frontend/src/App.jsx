@@ -10,7 +10,6 @@ import AuthView from './components/AuthView.jsx';
 import OfferComparision from './components/OfferComparision.jsx';
 import SettingsView from './components/SettingsView.jsx';
 import BuyCredits from './components/BuyCredits.jsx';
-import PublicLanding from './components/PublicLanding.jsx';
 import { Agentation } from 'agentation';
 
 import darkModeLogo from './assets/darkModeTextual.png';
@@ -35,33 +34,6 @@ function App() {
   const [contractResult, setContractResult] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [credits, setCredits] = useState(null);
-
-  // Fetch user credits dynamically upon successful authentication
-  useEffect(() => {
-    if (isAuthenticated) {
-      const fetchCredits = async () => {
-        try {
-          const token = localStorage.getItem('token');
-          const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
-          const res = await fetch(`${API_URL}/api/auth/profile`, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-          if (res.ok) {
-            const data = await res.json();
-            setCredits(data.user.credits);
-          }
-        } catch (err) {
-          console.error('Error fetching user credits:', err);
-        }
-      };
-      fetchCredits();
-    } else {
-      setCredits(null);
-    }
-  }, [isAuthenticated]);
 
   // Auto-restore session from token
   useEffect(() => {
@@ -102,17 +74,6 @@ function App() {
       setActiveTab('dashboard');
     }
   }, [isAuthenticated]);
-
-  if (!isAuthenticated) {
-    return (
-      <PublicLanding 
-        setIsAuthenticated={setIsAuthenticated} 
-        setUser={setUser} 
-        theme={theme} 
-        toggleTheme={toggleTheme} 
-      />
-    );
-  }
 
   return (
     <>
@@ -158,7 +119,6 @@ function App() {
           theme={theme}
           toggleTheme={toggleTheme}
           isAuthenticated={isAuthenticated}
-          credits={credits}
         />
 
         <div className="main-content">
@@ -172,7 +132,6 @@ function App() {
                 contractResult={contractResult}
                 setContractResult={setContractResult}
                 setChatMessages={setChatMessages}
-                setCredits={setCredits}
               />
             ) : (
               <AuthView setIsAuthenticated={setIsAuthenticated} setUser={setUser} />
@@ -181,7 +140,7 @@ function App() {
 
           {activeTab === 'vin' && (
             isAuthenticated ? (
-              <VinLookup setCredits={setCredits} />
+              <VinLookup />
             ) : (
               <AuthView setIsAuthenticated={setIsAuthenticated} setUser={setUser} />
             )
@@ -217,7 +176,7 @@ function App() {
           )}
           {activeTab === 'buy_credits' && (
             isAuthenticated ? (
-              <BuyCredits onPaymentSuccess={setCredits} />
+              <BuyCredits />
             ) : (
               <AuthView setIsAuthenticated={setIsAuthenticated} setUser={setUser} />
             )

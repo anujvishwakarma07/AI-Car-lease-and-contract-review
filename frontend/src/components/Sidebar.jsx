@@ -17,7 +17,7 @@ import lightModeLogo from '../assets/LightModeTextual.png';
 import darkModeSymbol from '../assets/darkModeSymbolic.png';
 import lightModeSymbol from '../assets/lightModeSybolic.png';
 
-const Sidebar = ({ activeTab, setActiveTab, setIsAuthenticated, setUser, theme, toggleTheme, isAuthenticated, credits }) => {
+const Sidebar = ({ activeTab, setActiveTab, setIsAuthenticated, setUser, theme, toggleTheme, isAuthenticated }) => {
   const handleSignOut = () => {
     if (setIsAuthenticated) setIsAuthenticated(false);
     if (setUser) setUser(null);
@@ -97,27 +97,6 @@ const Sidebar = ({ activeTab, setActiveTab, setIsAuthenticated, setUser, theme, 
           <Coins size={20} />
           <span>Buy Credits</span>
         </div>
-
-        {isAuthenticated && (
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '12px 16px',
-            backgroundColor: 'var(--bg-hover)',
-            border: '1px solid var(--border)',
-            fontSize: '10px',
-            fontWeight: 800,
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--text-main)',
-            margin: '20px 0'
-          }}>
-            <span>BALANCE</span>
-            <span style={{ color: 'var(--accent)', fontWeight: 800 }}>
-              🪙 {credits !== null ? credits : '...'}
-            </span>
-          </div>
-        )}
 
         {/* Theme Toggle Button */}
         <div

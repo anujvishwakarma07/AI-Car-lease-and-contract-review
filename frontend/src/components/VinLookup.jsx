@@ -213,7 +213,7 @@ const isQuotaError = (msg = '') =>
   msg.includes('429') || msg.toLowerCase().includes('quota') ||
   msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('too many');
 
-const VinLookup = ({ setCredits }) => {
+const VinLookup = () => {
   const [activeMode, setActiveMode] = useState('vin');
 
   const [vinInput, setVinInput] = useState('');
@@ -268,7 +268,6 @@ const VinLookup = ({ setCredits }) => {
       if (!res.ok) throw new Error(data.error || 'License plate lookup failed.');
       setPlateResult(data.carInfo);
       setPlateVin(data.vin || '');
-      if (setCredits && data.credits !== undefined) setCredits(data.credits);
     } catch (err) {
       if (isQuotaError(err.message)) setPlateQuota(true);
       else setPlateError(err.message || 'Failed to decode license plate.');
@@ -287,7 +286,6 @@ const VinLookup = ({ setCredits }) => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Indian RC lookup failed.');
       setIndianResult(data.vehicleInfo);
-      if (setCredits && data.credits !== undefined) setCredits(data.credits);
     } catch (err) {
       if (isQuotaError(err.message)) setIndianQuota(true);
       else setIndianError(err.message || 'Failed to decode registration number.');

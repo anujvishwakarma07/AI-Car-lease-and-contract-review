@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { UploadCloud, CheckCircle2, ShieldAlert, Trash2, Download } from 'lucide-react';
 
-const ContractAnalyzer = ({ contractResult, setContractResult, setChatMessages, setCredits }) => {
+const ContractAnalyzer = ({ contractResult, setContractResult, setChatMessages }) => {
   const [contractFile, setContractFile] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [uploadError, setUploadError] = useState('');
@@ -182,10 +182,6 @@ const handleAnalyze = async () => {
 
     // Store the analysis result in the shared state (so Chat can access it)
     setContractResult(data);
-
-    if (setCredits && data.credits !== undefined) {
-      setCredits(data.credits);
-    }
 
     setHistory(prev => [data, ...prev]);
 
