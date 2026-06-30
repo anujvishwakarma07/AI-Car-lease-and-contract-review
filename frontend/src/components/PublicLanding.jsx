@@ -29,7 +29,7 @@ const PublicLanding = ({ setIsAuthenticated, setUser, theme, toggleTheme }) => {
       <header style={{
         position: 'sticky', top: 0, zIndex: 99,
         background: 'var(--bg-sidebar)', borderBottom: '1px solid var(--border)',
-        padding: '0 32px', display: 'flex', alignItems: 'center',
+        padding: '0 24px', display: 'flex', alignItems: 'center',
         justifyContent: 'space-between', height: '64px', flexShrink: 0,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -48,7 +48,7 @@ const PublicLanding = ({ setIsAuthenticated, setUser, theme, toggleTheme }) => {
       </header>
 
       {/* DASHBOARD VIEW CONTENT */}
-      <div style={{ flex: 1, padding: '32px 16px', maxWidth: '1200px', width: '100%', margin: '0 auto', boxSizing: 'border-box' }}>
+      <div style={{ flex: 1, padding: '32px 24px', maxWidth: '1440px', width: '100%', margin: '0 auto', boxSizing: 'border-box' }}>
         <div className="home-split-grid">
           <div>
             <h1 className="home-hero-header">
@@ -112,7 +112,7 @@ const PublicLanding = ({ setIsAuthenticated, setUser, theme, toggleTheme }) => {
       </div>
 
       {/* FOOTER */}
-      <footer className="app-footer" style={{ paddingLeft: '32px', paddingRight: '32px' }}>
+      <footer className="app-footer" style={{ paddingLeft: '24px', paddingRight: '24px' }}>
         <div className="footer-top">
           <div className="footer-brand-section">
             <div className="footer-brand" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
