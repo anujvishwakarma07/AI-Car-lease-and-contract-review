@@ -135,6 +135,29 @@ const IndianRCResultCard = ({ info }) => (
       Sourced from VAHAN (Ministry of Road Transport & Highways)
     </p>
 
+    {info.isDummy && (
+      <div style={{ 
+        display: 'flex', 
+        gap: '12px', 
+        marginBottom: '24px', 
+        padding: '16px 20px', 
+        backgroundColor: 'rgba(245, 158, 11, 0.08)', 
+        border: '1px solid rgba(245, 158, 11, 0.3)', 
+        borderRadius: '8px',
+        alignItems: 'flex-start'
+      }}>
+        <AlertCircle size={20} style={{ color: '#f59e0b', flexShrink: 0, marginTop: '2px' }} />
+        <div>
+          <h4 style={{ margin: '0 0 4px 0', fontSize: '13px', fontWeight: 800, color: '#f59e0b', fontFamily: 'var(--font-mono)' }}>
+            SANDBOX DEMO MODE (API QUOTA EXCEEDED)
+          </h4>
+          <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+            {info.comment || 'It is dummy data, for getting the real data you have to donate.'}
+          </p>
+        </div>
+      </div>
+    )}
+
     <div style={{ marginBottom: '20px' }}>
       <span style={{
         display: 'inline-block',
